@@ -33,7 +33,10 @@ public class User {
         this.userName = userName;
     }
 
-    // Functions
+
+
+    // Funções
+    // Adicionar tarefa
     public void assignTask(Task targetTask){
         if (targetTask != null) {
             this.userTasks.add(targetTask);
@@ -44,6 +47,7 @@ public class User {
 
     }
 
+    // Remover tarefa
     public void removeTask(Task targetTask){
         if (this.userTasks.contains(targetTask)){
             this.userTasks.remove(targetTask);
@@ -53,7 +57,7 @@ public class User {
         }
     }
 
-    // Busca em Lista
+    // Buscar por usuário em List<User>
     public static User searchUser(String searchQuery, List<User> searchLocale){
         return searchLocale.stream()
                 .filter(user -> user.getUserName().matches(searchQuery))

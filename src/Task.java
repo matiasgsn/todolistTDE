@@ -44,6 +44,8 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
+
+
     // Functions
     // Auxiliares pra funções Assign e Remove de USER
     public void addUser(User user) {
@@ -54,7 +56,7 @@ public class Task {
         this.taskAssignedUsers.remove(user);
     }
 
-    // Busca em Lista
+    // Buscar por tarefa em List<Task>
     public static Task searchTask(String searchQuery, List<Task> searchLocale){
         return searchLocale.stream()
                 .filter(task -> task.getTaskName().matches(searchQuery))
@@ -64,6 +66,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return getTaskName() + " : " + getTaskDescription();
+        return getTaskName() + " : Tarefa Regular : " + getTaskDescription();
     }
 }

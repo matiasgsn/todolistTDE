@@ -12,7 +12,7 @@ public class Main {
         User searchedUser = null;
         Task searchedTask = null;
 
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in).useDelimiter("\n");
         while (i != 9){
             searchedUser = null;
             searchedTask = null;
@@ -28,17 +28,17 @@ public class Main {
             System.out.println("8. Remover usuário de tarefa");
             System.out.println("9. Sair do Programa");
             try{
-                i = Integer.parseInt(input.nextLine());
+                i = Integer.parseInt(input.next());
             } catch (NumberFormatException error){
                 System.out.println("Opção inválida.");
-                input.nextLine();
+                // input.nextLine();
             }
 
-            switch (i){
+            switch (i) {
                 case 1:
                     System.out.println("Criar novo usuário");
                     System.out.println("Insira o nome do usuário:");
-                    userList.add(new User(input.nextLine()));
+                    userList.add(new User(input.next()));
                     break;
 
                 case 2:
@@ -49,9 +49,9 @@ public class Main {
                 case 3:
                     System.out.println("Ver tarefas de usuário");
                     System.out.println("Insira o nome do usuário:");
-                    searchedUser = User.searchUser(input.nextLine(), userList);
+                    searchedUser = User.searchUser(input.next(), userList);
 
-                    if (searchedUser != null){
+                    if (searchedUser != null) {
                         System.out.println(searchedUser.getUserTasks());
                         break;
                     } else {
@@ -62,9 +62,29 @@ public class Main {
                 case 4:
                     System.out.println("Criar nova tarefa");
                     System.out.println("Insira o nome da tarefa e sua descrição:");
-                    String newTaskName = input.nextLine();
-                    String newTaskDescription = input.nextLine();
-                    taskList.add(new Task(newTaskName, newTaskDescription));
+                    String newTaskName = input.next();
+                    String newTaskDescription = input.next();
+
+                    System.out.println("Qual o tamanho da tarefa? (1 - Normal, 2 - Pequena)");
+                    int escolha = 0;
+                    try {
+                        escolha = Integer.parseInt(input.next());
+                    } catch (NumberFormatException error) {
+                        System.out.println("Opção inválida.");
+                    }
+
+                    switch (escolha) {
+                        case 1:
+                            taskList.add(new Task(newTaskName, newTaskDescription));
+                            break;
+
+                        case 2:
+                            taskList.add(new SmallTask(newTaskName, newTaskDescription));
+                            break;
+
+                        default:
+                            System.out.println("Opção inválida.");
+                    }
                     break;
 
                 case 5:
@@ -75,9 +95,9 @@ public class Main {
                 case 6:
                     System.out.println("Ver usuários em tarefa");
                     System.out.println("Insira o nome da tarefa:");
-                    searchedTask = Task.searchTask(input.nextLine(), taskList);
+                    searchedTask = Task.searchTask(input.next(), taskList);
 
-                    if (searchedTask != null){
+                    if (searchedTask != null) {
                         System.out.println(searchedTask.getTaskAssignedUsers());
                         break;
                     } else {
@@ -89,16 +109,21 @@ public class Main {
                     System.out.println("Adicionar usuário à tarefa");
                     System.out.println("Digite o nome da tarefa:");
 
-                    searchedTask = Task.searchTask(input.nextLine(),taskList);
+                    searchedTask = Task.searchTask(input.next(), taskList);
 
-                    if (searchedTask != null){
+                    if (searchedTask != null) {
                         System.out.println(searchedTask);
                         System.out.println("Digite o nome do usuário:");
 
-                        searchedUser = User.searchUser(input.nextLine(), userList);
+                        searchedUser = User.searchUser(input.next(), userList);
 
-                        if (searchedUser != null){
-                            searchedUser.assignTask(searchedTask);
+                        if (searchedUser != null) {
+                            try {
+                                searchedUser.assignTask(searchedTask);
+                            } catch (IllegalArgumentException error) {
+                                System.out.println("Máximo de membros já atribuido à tarefa.");
+                                break;
+                            }
                             System.out.println("Tarefa '" + searchedTask + "' atribuída a '" + searchedUser + "'.");
                             break;
                         } else {
@@ -114,14 +139,14 @@ public class Main {
                     System.out.println("Remover usuário de tarefa");
                     System.out.println("Digite o nome da tarefa:");
 
-                    searchedTask = Task.searchTask(input.nextLine(),taskList);
+                    searchedTask = Task.searchTask(input.next(), taskList);
 
-                    if (searchedTask != null){
+                    if (searchedTask != null) {
                         System.out.println("Digite o nome do usuário:");
 
-                        searchedUser = User.searchUser(input.nextLine(), userList);
+                        searchedUser = User.searchUser(input.next(), userList);
 
-                        if (searchedUser != null){
+                        if (searchedUser != null) {
                             searchedUser.removeTask(searchedTask);
                             System.out.println("Tarefa '" + searchedTask + "' removida de '" + searchedUser + "'.");
                             break;
